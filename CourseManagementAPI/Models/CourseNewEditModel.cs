@@ -1,5 +1,4 @@
-﻿using CourseManagementAPI.Entities;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace CourseManagementAPI.Models
@@ -29,6 +28,6 @@ namespace CourseManagementAPI.Models
         [PasswordPropertyText]
         [StringLength(150, MinimumLength = 4)]
         public string EditDeleteCoursePIN { get; set; } = null!;
-        public List<Attendee> CourseAttendees { get; set; } = new List<Attendee>();
+        public List<AttendeeModel> CourseAttendees { get; set; } = new List<AttendeeModel>();
     }
 }

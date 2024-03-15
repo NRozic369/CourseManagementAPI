@@ -38,23 +38,43 @@ namespace CourseManagementAPI.Controllers
             return result;
         }
 
-        //// GET: api/Course/5
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<CourseNewEditModel>> GetCourseNewEditModel(int id)
-        //{
-        //  if (_context.CourseNewEditModel == null)
-        //  {
-        //      return NotFound();
-        //  }
-        //    var courseNewEditModel = await _context.CourseNewEditModel.FindAsync(id);
+        // GET: api/Course/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<CourseNewEditModel>> GetCourseById(int id)
+        {
+            if (_context.Courses == null)
+            {
+                return NotFound();
+            }
 
-        //    if (courseNewEditModel == null)
-        //    {
-        //        return NotFound();
-        //    }
+            var course = await _context.Courses.Include(x => x.Attendees).FirstOrDefaultAsync(x => x.Id == id);
+            if (course == null)
+            {
+                return NotFound();
+            }
 
-        //    return courseNewEditModel;
-        //}
+            var result = new CourseNewEditModel
+            {
+                Id = course.Id,
+                CourseTitle = course.CourseTitle,
+                CourseDescription = course.CourseDescription,
+                CourseStartDateTime = course.CourseStartDateTime,
+                CourseTeacher = course.CourseTeacher,
+                CourseTeacherEmail = course.CourseTeacherEmail,
+                MaxNumberOfAtendees = course.MaxNumberOfAtendees,
+                EditDeleteCoursePIN = string.Empty,
+                CourseAttendees = course.Attendees.Select(x => new AttendeeModel
+                {
+                    Id = x.Id,
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                    Email = x.Email,
+                    CourseId = x.CourseId,
+                }).ToList(),
+            };
+
+            return result;
+        }
 
         //// PUT: api/Course/5
         //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
