@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CourseManagementAPI.Models
 {
-    public class CourseNewEditModel
+    public class CourseDetailsModel
     {
         public int Id { get; set; }
         [Required]
@@ -28,5 +28,6 @@ namespace CourseManagementAPI.Models
         [PasswordPropertyText]
         [StringLength(150, MinimumLength = 4)]
         public string EditDeleteCoursePIN { get; set; } = null!;
+        public List<AttendeeModel> CourseAttendees { get; set; } = new List<AttendeeModel>();
     }
 }
